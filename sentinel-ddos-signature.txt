@@ -1,0 +1,23 @@
+#REMOVE ALL COMMENTED LINES BEFORE IMPORTING
+#This is a custom signature to detect UDP amplification traffic generated from unpatched versions of lservnt.exe, a compenent of Sentinel License Manager
+#Compiles with McAfee Network Security Platform, easily modified to support other platforms like Snort.
+#USE AT YOUR OWN RISK.  NOT RESPONSIBLE FOR ANY ISSUES CAUSED WITH THIS SIGNATURE.
+<attack  id="0xc0005700"  name="UDS-Spaling: SentinelLM Amplified UDP Detected"  launchpoint="remote"  mechanism="signature"  direction="server2client"  blocking-type="attack-packet"  version="1.3"  use-tpu="no"  tpu-protocol="tcp"  sigdesc="yes"  >
+<impact category="Exploit"  severity="9"  subcategory="unassigned"  >
+<package-ref id="sentinellm" >
+<implementation-ref />
+</package-ref>
+<procategory  id="malwarebot" />
+</impact>
+<description>
+Detects amplified UDP responses from Sentinel License Manager
+</description>
+<signature  id="1"  name="Sig1"  required-ssw-min-version="1.0"  confidence="7"  detect-window="response"  arch="any"  device-family="m-series"  >
+<and>
+<string-match field="pktsearch-sentinellm-rsp-text" astring="\x2c\x50\x53\x48\x2c\x27\x41\x7b\x5e\x51\x4f\x48\x70\x65\x5d\x29\x5d" fold-case="no" negation="no" matchindex-hint="0.0" state-order="0" ></string-match></and>
+</signature>
+<response>
+ <send-alert/>
+ <send-256b/>
+</response>
+</attack>
